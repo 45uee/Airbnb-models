@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from joblib import dump, load
+import mlflow.sklearn
 
 
 def get_data(url='http://data.insideairbnb.com/spain/catalonia/barcelona/2022-09-10/visualisations/listings.csv'):
@@ -79,6 +80,9 @@ def save_model(model):
 
 
 if __name__ == "__main__":
+    mlflow.set_tracking_uri("http://localhost:8080")
+    mlflow.sklearn.autolog()
+
     raw_df = get_data()
     df = data_preparation(raw_df)
     model = model_train(df)
